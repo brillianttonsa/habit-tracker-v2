@@ -143,7 +143,7 @@ function HomePage() {
         </div>
       </section>
 
-      {/* CTA Section */}
+      {/* Section */}
       <section className="py-20 bg-purple-600 text-white">
         <div className="container mx-auto px-4 text-center">
           <motion.h2
