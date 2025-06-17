@@ -39,7 +39,9 @@ function Login(){
 
     setIsLoading(true)
     try {
-      await login(formData.email, formData.password)
+      const response = await login(formData)
+
+      login(response.user, response.token)
       navigate("/dashboard")
     } catch (error) {
       setErrors({ submit: "Invalid email or password" })

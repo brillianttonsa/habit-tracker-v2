@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Mail, Lock, User, Eye, EyeOff, BarChart3, Zap, Shield, Smartphone } from "lucide-react"
 import { MobileFeatureItem, FeatureItem } from "../components/mobileFeatures/MobileFeatureItems"
 import { useAuth } from "../contexts/AuthContext"
+import api from "../services/api"
 
 function Register(){
   const navigate = useNavigate()
@@ -74,7 +75,9 @@ function Register(){
 
     try {
       //API
-      await register(formData.name, formData.email, formData.password)
+      const response = await api.register(formData.name, formData.email, formData.password)
+      // Save user data to local storage
+      login(response.user, response.token)
       navigate("/dashboard")
     } catch (error) {
       setErrors({ submit: "Registration failed. Please try again." })

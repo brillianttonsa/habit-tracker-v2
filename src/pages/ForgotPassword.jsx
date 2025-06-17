@@ -3,6 +3,7 @@ import { useState } from "react"
 import { Link } from "react-router-dom"
 import { motion } from "framer-motion"
 import { Mail, ArrowLeft, CheckCircle, BarChart3 } from "lucide-react"
+import api from "../services/api"
 
 function ForgotPassword(){
   const [email, setEmail] = useState("")
@@ -26,11 +27,20 @@ function ForgotPassword(){
     setIsLoading(true)
     setError("")
 
-    //  API call
-    setTimeout(() => {
+    try{
+      const response = await api.requestPasswordReset(email);
+      if (response.success) {
+        setIsEmailSent(true)
+      } else {
+        setError(response.message || "Failed to send reset link")
+      }
+
+    }catch(err) {
+      console.error("Error sending password reset email:", err)
+      setError(err.response?.data?.error || "An unexpected error occurred")
+    }finally{
       setIsLoading(false)
-      setIsEmailSent(true)
-    }, 2000)
+    }
   }
 
   if (isEmailSent) {
